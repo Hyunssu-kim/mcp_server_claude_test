@@ -1,6 +1,6 @@
 # 🤝 MCP Collaborative AI Server
 
-Gemini와 Claude가 협업하여 최고 품질의 결과를 만들어내는 혁신적인 MCP 서버 컬렉션입니다.
+Gemini와 Claude CLI 도구를 통합하여 협업 작업을 수행하는 MCP 서버 컬렉션입니다.
 
 ## 📁 프로젝트 구조
 
@@ -41,18 +41,15 @@ Gemini와 Claude가 협업하여 최고 품질의 결과를 만들어내는 혁�
 
 ## ✨ 주요 특징
 
-### 🧠 진짜 협업 AI
-- **Gemini와 Claude가 실제로 대화하고 토론**
-- **6단계 협업 워크플로우**: 토론 → 초안 → 검토 → 개선 → 최종검토 → 평가
-- **실시간 협업 과정 모니터링**
+### 🧠 AI 협업 시뮬레이션
+- **CLI 도구를 통한 작업 분배**
+- **6단계 워크플로우**: 토론 → 초안 → 검토 → 개선 → 최종검토 → 평가
+- **로그 기반 과정 모니터링**
 
 ### 🎯 사용 가능한 도구들
-1. **collaborative_task** - 완전한 협업 워크플로우
-2. **quick_discussion** - 빠른 AI 토론
-3. **compare_approaches** - 접근법 비교 분석
-4. **get_collaboration_stats** - 협업 통계 조회
-5. **simulate_collaboration** - 협업 시뮬레이션
-6. **ai_discussion** - AI 토론 시뮬레이션
+1. **enhanced_collaboration** - 작업 유형별 특화된 협업
+2. **specialized_discussion** - 도메인별 전문 토론
+3. **get_collaboration_stats** - 협업 통계 조회
 
 ## 🚀 빠른 시작
 
@@ -69,14 +66,11 @@ pip install -r requirements.txt
 
 ### 3. 서버 실행
 ```bash
-# 기본 실행
-python src/servers/collaborative_ai_orchestrator.py
+# 향상된 협업 서버 실행
+python src/servers/enhanced_collaborative_server.py
 
-# 로그와 함께 실행
-./scripts/start_collaborative_server.sh
-
-# 실시간 모니터링
-python src/tools/debug_dashboard.py
+# 기본 시뮬레이션 서버 실행
+python src/servers/basic_collaborative_server.py
 ```
 
 ### 4. Claude Desktop 설정
@@ -85,7 +79,7 @@ python src/tools/debug_dashboard.py
   "mcpServers": {
     "collaborative-ai": {
       "command": "/usr/local/bin/python3",
-      "args": ["/path/to/src/servers/collaborative_ai_orchestrator.py"]
+      "args": ["/path/to/src/servers/enhanced_collaborative_server.py"]
     }
   }
 }
@@ -93,56 +87,42 @@ python src/tools/debug_dashboard.py
 
 ## 💡 사용 예제
 
-### 🤝 완전한 협업
+### 🤝 작업별 협업
 ```
-collaborative_task 도구로 "Python 웹앱 만들기"를 수행해주세요
-```
-
-### 💬 빠른 토론
-```
-quick_discussion 도구로 "AI의 미래"에 대해 토론해주세요
+enhanced_collaboration 도구로 "Python 웹앱 만들기"를 수행해주세요
 ```
 
-### ⚖️ 접근법 비교
+### 💬 전문 토론
 ```
-compare_approaches 도구로 "데이터베이스 설계" 방법을 비교해주세요
+specialized_discussion 도구로 "AI의 미래"에 대해 토론해주세요
 ```
 
-## 🔍 실시간 모니터링
+### 📊 통계 조회
+```
+get_collaboration_stats 도구로 협업 통계를 확인해주세요
+```
 
-### 터미널 대시보드
+## 🔍 모니터링
+
+### 기본 로그 확인
 ```bash
-python src/tools/debug_dashboard.py
-```
-
-### 로그 모니터링
-```bash
-./scripts/monitor_logs.sh
+# 서버 실행 시 콘솔 출력 확인
+python src/servers/enhanced_collaborative_server.py
 ```
 
 ## 🛡️ 트러블슈팅
 
 ### MCP 서버가 인식되지 않을 때
-1. Claude Desktop 완전 재시작
+1. Claude Desktop 재시작
 2. 설정 파일 경로 확인
 3. Python 경로 확인: `/usr/local/bin/python3`
-4. 간단한 테스트 서버로 시작: `src/servers/ultra_simple_server.py`
+4. 기본 서버로 테스트: `src/servers/basic_collaborative_server.py`
 
-### CLI 도구 확인
-```bash
-# Gemini CLI 확인
-which gemini
+## 📚 추가 문서
 
-# Claude CLI 확인  
-which claude
-```
-
-## 📚 자세한 문서
-
-- **[협업 시스템 상세 가이드](docs/README_COLLABORATIVE.md)** - 완전한 협업 워크플로우 설명
-- **[시스템 아키텍처](docs/SYSTEM_ARCHITECTURE.md)** - 기술적 구조 및 설계
-- **[인터랙티브 다이어그램](docs/system_architecture_diagram.html)** - 시각적 시스템 구조
-- **[MCP 서버 정보](docs/CLAUDE.md)** - Claude Desktop 연동 정보
+- **[협업 시스템 설명](docs/README_COLLABORATIVE.md)** - 협업 워크플로우 상세 내용
+- **[시스템 아키텍처](docs/SYSTEM_ARCHITECTURE.md)** - 기술적 구조 문서
+- **[MCP 서버 정보](docs/CLAUDE.md)** - Claude Desktop 연동 가이드
 
 ## 🎨 협업 워크플로우
 
@@ -162,23 +142,23 @@ which claude
 
 ## 🤖 AI 역할 분담
 
-- **🔸 Gemini**: 창의성, 최신 정보, 다국어, 브레인스토밍
-- **🔹 Claude**: 논리성, 코딩, 구조화, 문서 작성
-- **🤝 협업**: 두 AI의 **최고 장점만** 결합!
+- **🔸 Gemini**: 창의적 접근, 혁신적 아이디어, 사용자 중심 관점
+- **🔹 Claude**: 논리적 분석, 체계적 구조, 기술적 정확성
+- **🤝 협업**: 두 AI의 서로 다른 접근법을 결합한 균형잡힌 결과
 
-## 📈 품질 보장
+## 📈 특징
 
-- **다중 관점** 문제 해결
-- **상호 검토**로 오류 최소화  
-- **반복 개선**으로 완성도 극대화
-- **객관적 품질 점수** 산출
+- **다중 관점**을 고려한 문제 해결
+- **작업 유형별** 특화된 응답 제공
+- **동적 품질 점수** 생성 시스템
+- **구체적 예시**와 실행 가능한 가이드
 
-## 🔧 개발자 도구
+## 🔧 기술적 특징
 
-- **실시간 로그 스트리밍**
-- **시각적 워크플로우 대시보드**
-- **협업 통계 및 성과 분석**
-- **디버깅 및 모니터링 도구**
+- **JSON-RPC 2.0** 프로토콜 기반
+- **비동기 처리** 지원
+- **작업 유형 자동 분석**
+- **통계 및 성과 추적**
 
 ## 🤝 기여하기
 
@@ -199,8 +179,6 @@ which claude
 - **GitHub**: [Hyunssu-kim](https://github.com/Hyunssu-kim)
 
 ---
-
-**🎉 이제 진짜 AI 팀워크를 경험해보세요!**
 
 Created with ❤️ by AI Collaboration Project  
 Version: 2.0.0
