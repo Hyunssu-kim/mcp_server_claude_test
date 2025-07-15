@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(chmod:*)",
+      "Bash(echo $HOME)",
+      "Bash(mkdir:*)",
+      "Bash(cp:*)",
+      "Bash(pip install:*)",
+      "Bash(python3:*)",
+      "Bash(/usr/local/bin/python3:*)",
+      "Bash(/Users/kimhyunsu/anaconda3/bin/python3 -c \"import mcp; print(''MCP installed'')\")",
+      "Bash(pkill:*)",
+      "Bash(ls:*)",
+      "Bash(./check_claude_logs.sh:*)",
+      "Bash(git init:*)",
+      "Bash(git remote add:*)",
+      "Bash(git branch:*)",
+      "Bash(git add:*)"
+    ],
+    "deny": []
+  }
+}
