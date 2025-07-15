@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCP Collaborative AI Server 작동 방식</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .main-content {
+            padding: 40px;
+        }
+        
+        .architecture-diagram {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 30px;
+            margin: 40px 0;
+            align-items: start;
+        }
+        
+        .component {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 2px solid #e9ecef;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .component:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .component h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .claude-client {
+            background: linear-gradient(135deg, #ff9a9e, #fecfef);
+        }
+        
+        .mcp-server {
+            background: linear-gradient(135deg, #a8edea, #fed6e3);
+        }
+        
+        .ai-systems {
+            background: linear-gradient(135deg, #ffecd2, #fcb69f);
+        }
+        
+        .workflow {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .workflow h2 {
+            color: #2c3e50;
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 1.8em;
+        }
+        
+        .workflow-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .step {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 5px solid #3498db;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .step-number {
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            background: #3498db;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        
+        .step h4 {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .data-flow {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .flow-diagram {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .flow-item {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        .flow-arrow {
+            color: #3498db;
+            font-size: 2em;
+            font-weight: bold;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+        
+        .feature {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-top: 4px solid #3498db;
+        }
+        
+        .feature h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .emoji {
+            font-size: 1.5em;
+        }
+        
+        .code-example {
+            background: #2c3e50;
+            color: #ecf0f1;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+        
+        .highlight {
+            background: #f39c12;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        
+        @media (max-width: 768px) {
+            .architecture-diagram {
+                grid-template-columns: 1fr;
+            }
+            
+            .workflow-steps {
+                grid-template-columns: 1fr;
+            }
+            
+            .flow-diagram {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤝 MCP Collaborative AI Server</h1>
+            <p>Gemini와 Claude가 협업하는 혁신적인 시스템 구조</p>
+        </div>
+        
+        <div class="main-content">
+            <!-- 시스템 아키텍처 -->
+            <div class="architecture-diagram">
+                <div class="component claude-client">
+                    <h3><span class="emoji">💻</span>Claude Desktop</h3>
+                    <ul>
+                        <li>사용자 인터페이스</li>
+                        <li>MCP 클라이언트</li>
+                        <li>도구 호출 관리</li>
+                        <li>결과 표시</li>
+                    </ul>
+                </div>
+                
+                <div class="component mcp-server">
+                    <h3><span class="emoji">⚡</span>MCP Server (Python)</h3>
+                    <ul>
+                        <li><strong>collaborative_ai_orchestrator.py</strong></li>
+                        <li>JSON-RPC 2.0 통신</li>
+                        <li>도구 등록 및 관리</li>
+                        <li>워크플로우 조정</li>
+                        <li>실시간 로깅</li>
+                    </ul>
+                </div>
+                
+                <div class="component ai-systems">
+                    <h3><span class="emoji">🤖</span>AI 시스템들</h3>
+                    <div style="margin: 15px 0;">
+                        <strong>🔸 Gemini CLI</strong>
+                        <ul>
+                            <li>창의적 작업</li>
+                            <li>최신 정보</li>
+                            <li>다국어 처리</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <strong>🔹 Claude CLI</strong>
+                        <ul>
+                            <li>논리적 분석</li>
+                            <li>코드 작성</li>
+                            <li>구조화된 작업</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 6단계 워크플로우 -->
+            <div class="workflow">
+                <h2>🎯 6단계 협업 워크플로우</h2>
+                <div class="workflow-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <h4>🎯 초기 토론</h4>
+                        <p>Gemini가 작업을 분석하고, Claude가 검토하여 최적의 접근법을 논의합니다.</p>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <h4>✍️ 초안 작성</h4>
+                        <p>토론 결과를 바탕으로 더 적합한 AI가 초안을 작성합니다.</p>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <h4>🔍 동료 검토</h4>
+                        <p>다른 AI가 초안을 검토하고 구체적인 개선사항을 제안합니다.</p>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <h4>🚀 피드백 개선</h4>
+                        <p>검토 의견을 반영하여 두 AI가 각각 개선안을 제시하고 최적안을 선택합니다.</p>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">5</div>
+                        <h4>✅ 최종 검토</h4>
+                        <p>양쪽 AI가 최종 버전을 검토하고 마지막 다듬기를 진행합니다.</p>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">6</div>
+                        <h4>📊 품질 평가</h4>
+                        <p>두 AI가 독립적으로 품질을 평가하여 객관적인 점수를 산출합니다.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 데이터 플로우 -->
+            <div class="data-flow">
+                <h2>📡 데이터 플로우</h2>
+                <div class="flow-diagram">
+                    <div class="flow-item">
+                        <h4>사용자 요청</h4>
+                        <p>Claude Desktop에서 도구 호출</p>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-item">
+                        <h4>MCP 서버</h4>
+                        <p>JSON-RPC 요청 처리</p>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-item">
+                        <h4>AI 협업</h4>
+                        <p>6단계 워크플로우 실행</p>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-item">
+                        <h4>결과 반환</h4>
+                        <p>Claude Desktop에 최종 결과 전달</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 주요 기능들 -->
+            <div class="features">
+                <div class="feature">
+                    <h3><span class="emoji">🔧</span>사용 가능한 도구들</h3>
+                    <ul>
+                        <li><code>collaborative_task</code> - 완전한 협업</li>
+                        <li><code>quick_discussion</code> - 빠른 토론</li>
+                        <li><code>compare_approaches</code> - 접근법 비교</li>
+                        <li><code>get_collaboration_stats</code> - 통계 조회</li>
+                        <li><code>execute_gemini_direct</code> - Gemini 직접 실행</li>
+                        <li><code>execute_claude_direct</code> - Claude 직접 실행</li>
+                    </ul>
+                </div>
+                
+                <div class="feature">
+                    <h3><span class="emoji">📊</span>실시간 모니터링</h3>
+                    <ul>
+                        <li><strong>debug_dashboard.py</strong> - 시각적 대시보드</li>
+                        <li><strong>monitor_logs.sh</strong> - 로그 스트리밍</li>
+                        <li>워크플로우 진행 상황 추적</li>
+                        <li>AI 활동 통계</li>
+                        <li>협업 세션 관리</li>
+                    </ul>
+                </div>
+                
+                <div class="feature">
+                    <h3><span class="emoji">⚙️</span>시스템 특징</h3>
+                    <ul>
+                        <li>JSON-RPC 2.0 프로토콜 준수</li>
+                        <li>비동기 처리 (asyncio)</li>
+                        <li>오류 처리 및 복구</li>
+                        <li>실시간 stderr 로깅</li>
+                        <li>확장 가능한 아키텍처</li>
+                    </ul>
+                </div>
+                
+                <div class="feature">
+                    <h3><span class="emoji">🎯</span>협업 장점</h3>
+                    <ul>
+                        <li>다중 관점 문제 해결</li>
+                        <li>상호 검토로 오류 최소화</li>
+                        <li>반복 개선으로 품질 극대화</li>
+                        <li>창의성과 논리성의 균형</li>
+                        <li>객관적 품질 평가</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- 코드 예제 -->
+            <div class="code-example">
+                <h3>🔧 MCP 서버 구조 예제</h3>
+                <pre>
+# MCP 서버 기본 구조
+server = Server("collaborative-ai-orchestrator")
+
+@server.list_tools()
+async def handle_list_tools() -> ListToolsResult:
+    return ListToolsResult(tools=[
+        Tool(name="collaborative_task", ...),
+        Tool(name="quick_discussion", ...),
+    ])
+
+@server.call_tool() 
+async def handle_call_tool(request: CallToolRequest):
+    if request.name == "collaborative_task":
+        <span class="highlight">result = await orchestrator.start_collaboration(task)</span>
+        return CallToolResult(content=[...])
+                </pre>
+            </div>
+            
+            <!-- 설정 예제 -->
+            <div class="code-example">
+                <h3>⚙️ Claude Desktop 설정</h3>
+                <pre>
+{
+  "mcpServers": {
+    "collaborative-ai": {
+      "command": "/usr/local/bin/python3",
+      "args": ["<span class="highlight">/path/to/collaborative_ai_orchestrator.py</span>"]
+    }
+  }
+}
+                </pre>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
