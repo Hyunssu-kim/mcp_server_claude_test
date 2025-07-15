@@ -179,11 +179,6 @@ python src/servers/orchestration_server.py
 
 ## 👥 제작자
 
-- **AI Collaboration Project**
-- **Email**: noreply@anthropic.com
+- **Hyunssu Kim**
+- **Email**: foxkim951@naver.com
 - **GitHub**: [Hyunssu-kim](https://github.com/Hyunssu-kim)
-
----
-
-Created with ❤️ by AI Collaboration Project  
-Version: 2.0.0
