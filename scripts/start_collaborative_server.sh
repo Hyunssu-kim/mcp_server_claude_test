@@ -54,4 +54,4 @@ echo "=" | tr '=' '='
 echo ""
 
 # 서버 실행 (로그 파일과 터미널 동시 출력)
-/usr/local/bin/python3 /Users/kimhyunsu/Desktop/Developer/MCP_server/collaborative_ai_orchestrator.py 2>&1 | tee "$LOG_FILE"
+/usr/local/bin/python3 /Users/kimhyunsu/Desktop/Developer/MCP_server/src/servers/collaborative_ai_orchestrator.py 2>&1 | tee "$LOG_FILE"

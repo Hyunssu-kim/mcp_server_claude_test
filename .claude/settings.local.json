@@ -17,7 +17,10 @@
       "Bash(git branch:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(# 서버 파일들을 src/servers로 이동\nmv collaborative_ai_orchestrator.py src/servers/\nmv working_collaborative_server.py src/servers/\nmv basic_collaborative_server.py src/servers/\nmv ultra_simple_server.py src/servers/\nmv simple_test_server.py src/servers/\nmv mcp_ai_orchestrator.py src/servers/\nmv ai_orchestrator.py src/servers/\n\n# 도구들을 src/tools로 이동\nmv debug_dashboard.py src/tools/\n\n# 유틸리티를 src/utils로 이동 (없으므로 나중에 추가)\n\n# 예제를 examples로 이동\nmv run_example.py examples/\n\n# 설정 파일들을 configs로 이동\nmv claude_desktop_config.json configs/\nmv config.json.example configs/\nmv mcp_config.json configs/\n\n# 문서들을 docs로 이동\nmv README_COLLABORATIVE.md docs/\nmv SYSTEM_ARCHITECTURE.md docs/\nmv system_architecture_diagram.html docs/\nmv CLAUDE.md docs/\n\n# 스크립트들을 scripts로 이동\nmv start_collaborative_server.sh scripts/\nmv start_server.sh scripts/\nmv monitor_logs.sh scripts/\nmv check_claude_logs.sh scripts/)",
+      "Bash(tree:*)",
+      "Bash(find:*)"
     ],
     "deny": []
   }

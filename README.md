@@ -4,27 +4,40 @@ Gemini와 Claude가 협업하여 최고 품질의 결과를 만들어내는 혁�
 
 ## 📁 프로젝트 구조
 
-### 🚀 메인 서버들
-- `collaborative_ai_orchestrator.py` - 완전한 6단계 협업 워크플로우
-- `working_collaborative_server.py` - 실제 CLI 연동 협업 서버
-- `basic_collaborative_server.py` - CLI 없이 작동하는 기본 협업 시뮬레이터
-- `ultra_simple_server.py` - 테스트용 최소 MCP 서버
-
-### 🛠️ 유틸리티
-- `start_collaborative_server.sh` - 서버 시작 스크립트 (로그 포함)
-- `monitor_logs.sh` - 실시간 로그 모니터링
-- `debug_dashboard.py` - 시각적 협업 과정 대시보드
-- `check_claude_logs.sh` - Claude Desktop 로그 확인
-
-### 📋 설정 및 예제
-- `claude_desktop_config.json.example` - Claude Desktop 설정 예제
-- `mcp_config.json` - MCP 서버 설정
-- `requirements.txt` - Python 의존성
-- `run_example.py` - 사용 예제
-
-### 📚 문서
-- `README_COLLABORATIVE.md` - 상세한 협업 시스템 설명
-- `CLAUDE.md` - MCP 서버 정보
+```
+🤝 MCP Collaborative AI Server/
+├── 📂 src/                          # 소스 코드
+│   ├── 🚀 servers/                  # MCP 서버들
+│   │   ├── collaborative_ai_orchestrator.py  # 완전한 6단계 협업 워크플로우
+│   │   ├── working_collaborative_server.py   # 실제 CLI 연동 협업 서버
+│   │   ├── basic_collaborative_server.py     # CLI 없이 작동하는 기본 시뮬레이터
+│   │   ├── ultra_simple_server.py           # 테스트용 최소 MCP 서버
+│   │   └── simple_test_server.py            # 간단한 테스트 서버
+│   ├── 🛠️ tools/                   # 개발 도구들
+│   │   └── debug_dashboard.py               # 시각적 협업 과정 대시보드
+│   └── ⚙️ utils/                   # 유틸리티 함수들
+├── 📂 scripts/                      # 실행 스크립트들
+│   ├── start_collaborative_server.sh        # 서버 시작 (로그 포함)
+│   ├── start_server.sh                     # 기본 서버 시작
+│   ├── monitor_logs.sh                     # 실시간 로그 모니터링
+│   └── check_claude_logs.sh               # Claude Desktop 로그 확인
+├── 📂 configs/                      # 설정 파일들
+│   ├── claude_desktop_config.json          # Claude Desktop 설정 예제
+│   ├── config.json.example                 # 기본 설정 예제
+│   └── mcp_config.json                     # MCP 서버 설정
+├── 📂 examples/                     # 사용 예제들
+│   └── run_example.py                      # 기본 사용 예제
+├── 📂 docs/                         # 문서들
+│   ├── README_COLLABORATIVE.md             # 상세한 협업 시스템 설명
+│   ├── SYSTEM_ARCHITECTURE.md             # 시스템 구조 문서
+│   ├── system_architecture_diagram.html    # 인터랙티브 다이어그램
+│   └── CLAUDE.md                          # MCP 서버 정보
+├── 📂 tests/                        # 테스트 코드들 (예정)
+├── 📂 logs/                         # 로그 파일들
+├── 📄 requirements.txt              # Python 의존성
+├── 📄 .gitignore                   # Git 무시 파일들
+└── 📄 README.md                    # 이 파일
+```
 
 ## ✨ 주요 특징
 
@@ -41,35 +54,41 @@ Gemini와 Claude가 협업하여 최고 품질의 결과를 만들어내는 혁�
 5. **simulate_collaboration** - 협업 시뮬레이션
 6. **ai_discussion** - AI 토론 시뮬레이션
 
-## 🚀 설치 및 실행
+## 🚀 빠른 시작
 
-### 1. 의존성 설치
+### 1. 저장소 클론
 ```bash
-pip install -r requirements.txt
+git clone https://github.com/Hyunssu-kim/mcp_server_claude_test.git
+cd mcp_server_claude_test
 ```
 
-### 2. Claude Desktop 설정
-```json
-{
-  "mcpServers": {
-    "collaborative-ai": {
-      "command": "/usr/local/bin/python3",
-      "args": ["/path/to/collaborative_ai_orchestrator.py"]
-    }
-  }
-}
+### 2. 의존성 설치
+```bash
+pip install -r requirements.txt
 ```
 
 ### 3. 서버 실행
 ```bash
 # 기본 실행
-python3 collaborative_ai_orchestrator.py
+python src/servers/collaborative_ai_orchestrator.py
 
 # 로그와 함께 실행
-./start_collaborative_server.sh
+./scripts/start_collaborative_server.sh
 
 # 실시간 모니터링
-python3 debug_dashboard.py
+python src/tools/debug_dashboard.py
+```
+
+### 4. Claude Desktop 설정
+```json
+{
+  "mcpServers": {
+    "collaborative-ai": {
+      "command": "/usr/local/bin/python3",
+      "args": ["/path/to/src/servers/collaborative_ai_orchestrator.py"]
+    }
+  }
+}
 ```
 
 ## 💡 사용 예제
@@ -93,12 +112,12 @@ compare_approaches 도구로 "데이터베이스 설계" 방법을 비교해주�
 
 ### 터미널 대시보드
 ```bash
-python3 debug_dashboard.py
+python src/tools/debug_dashboard.py
 ```
 
 ### 로그 모니터링
 ```bash
-./monitor_logs.sh
+./scripts/monitor_logs.sh
 ```
 
 ## 🛡️ 트러블슈팅
@@ -107,7 +126,7 @@ python3 debug_dashboard.py
 1. Claude Desktop 완전 재시작
 2. 설정 파일 경로 확인
 3. Python 경로 확인: `/usr/local/bin/python3`
-4. 간단한 테스트 서버로 시작: `ultra_simple_server.py`
+4. 간단한 테스트 서버로 시작: `src/servers/ultra_simple_server.py`
 
 ### CLI 도구 확인
 ```bash
@@ -117,6 +136,13 @@ which gemini
 # Claude CLI 확인  
 which claude
 ```
+
+## 📚 자세한 문서
+
+- **[협업 시스템 상세 가이드](docs/README_COLLABORATIVE.md)** - 완전한 협업 워크플로우 설명
+- **[시스템 아키텍처](docs/SYSTEM_ARCHITECTURE.md)** - 기술적 구조 및 설계
+- **[인터랙티브 다이어그램](docs/system_architecture_diagram.html)** - 시각적 시스템 구조
+- **[MCP 서버 정보](docs/CLAUDE.md)** - Claude Desktop 연동 정보
 
 ## 🎨 협업 워크플로우
 
@@ -154,10 +180,27 @@ which claude
 - **협업 통계 및 성과 분석**
 - **디버깅 및 모니터링 도구**
 
+## 🤝 기여하기
+
+1. 이 저장소를 Fork
+2. 새로운 기능 브랜치 생성 (`git checkout -b feature/amazing-feature`)
+3. 변경사항 커밋 (`git commit -m 'Add amazing feature'`)
+4. 브랜치에 푸시 (`git push origin feature/amazing-feature`)
+5. Pull Request 생성
+
+## 📄 라이선스
+
+이 프로젝트는 MIT 라이선스 하에 배포됩니다. 자세한 내용은 `LICENSE` 파일을 참조하세요.
+
+## 👥 제작자
+
+- **AI Collaboration Project**
+- **Email**: noreply@anthropic.com
+- **GitHub**: [Hyunssu-kim](https://github.com/Hyunssu-kim)
+
 ---
 
 **🎉 이제 진짜 AI 팀워크를 경험해보세요!**
 
-Created by: AI Collaboration Project  
-License: MIT  
+Created with ❤️ by AI Collaboration Project  
 Version: 2.0.0
