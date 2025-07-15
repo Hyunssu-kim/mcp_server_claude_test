@@ -1,6 +1,6 @@
-# 🤝 MCP Collaborative AI Server
+# 🤖 MCP AI Orchestration Server
 
-Gemini와 Claude CLI 도구를 통합하여 협업 작업을 수행하는 MCP 서버 컬렉션입니다.
+질문을 받아 Gemini와 Claude CLI에 각각 전달하여 두 AI의 답변을 동시에 받을 수 있는 MCP 서버입니다.
 
 ## 📁 프로젝트 구조
 
@@ -8,9 +8,9 @@ Gemini와 Claude CLI 도구를 통합하여 협업 작업을 수행하는 MCP �
 🤝 MCP Collaborative AI Server/
 ├── 📂 src/                          # 소스 코드
 │   ├── 🚀 servers/                  # MCP 서버들
-│   │   ├── collaborative_ai_orchestrator.py  # 완전한 6단계 협업 워크플로우
-│   │   ├── working_collaborative_server.py   # 실제 CLI 연동 협업 서버
-│   │   ├── basic_collaborative_server.py     # CLI 없이 작동하는 기본 시뮬레이터
+│   │   ├── orchestration_server.py          # 메인 오케스트레이션 서버
+│   │   ├── enhanced_collaborative_server.py # 기존 협업 서버 (레거시)
+│   │   ├── basic_collaborative_server.py     # 기본 시뮬레이션 서버
 │   │   ├── ultra_simple_server.py           # 테스트용 최소 MCP 서버
 │   │   └── simple_test_server.py            # 간단한 테스트 서버
 │   ├── 🛠️ tools/                   # 개발 도구들
@@ -41,15 +41,15 @@ Gemini와 Claude CLI 도구를 통합하여 협업 작업을 수행하는 MCP �
 
 ## ✨ 주요 특징
 
-### 🧠 AI 협업 시뮬레이션
-- **CLI 도구를 통한 작업 분배**
-- **6단계 워크플로우**: 토론 → 초안 → 검토 → 개선 → 최종검토 → 평가
-- **로그 기반 과정 모니터링**
+### 🤖 AI 오케스트레이션
+- **질문을 두 AI에게 동시 전달**
+- **Gemini와 Claude CLI 연동**
+- **각 AI의 순수한 답변 제공**
+- **성격이나 역할 없이 있는 그대로 응답**
 
 ### 🎯 사용 가능한 도구들
-1. **enhanced_collaboration** - 작업 유형별 특화된 협업
-2. **specialized_discussion** - 도메인별 전문 토론
-3. **get_collaboration_stats** - 협업 통계 조회
+1. **ask_both_ai** - 질문을 두 AI에게 동시 전달
+2. **get_orchestration_stats** - 오케스트레이션 통계 조회
 
 ## 🚀 빠른 시작
 
@@ -66,10 +66,10 @@ pip install -r requirements.txt
 
 ### 3. 서버 실행
 ```bash
-# 향상된 협업 서버 실행
-python src/servers/enhanced_collaborative_server.py
+# 메인 오케스트레이션 서버 실행
+python src/servers/orchestration_server.py
 
-# 기본 시뮬레이션 서버 실행
+# 기본 시뮬레이션 서버 실행 (CLI 없이)
 python src/servers/basic_collaborative_server.py
 ```
 
@@ -77,9 +77,9 @@ python src/servers/basic_collaborative_server.py
 ```json
 {
   "mcpServers": {
-    "collaborative-ai": {
+    "orchestration-ai": {
       "command": "/usr/local/bin/python3",
-      "args": ["/path/to/src/servers/enhanced_collaborative_server.py"]
+      "args": ["/path/to/src/servers/orchestration_server.py"]
     }
   }
 }
@@ -87,19 +87,23 @@ python src/servers/basic_collaborative_server.py
 
 ## 💡 사용 예제
 
-### 🤝 작업별 협업
+### 🤖 두 AI에게 동시 질문
 ```
-enhanced_collaboration 도구로 "Python 웹앱 만들기"를 수행해주세요
-```
-
-### 💬 전문 토론
-```
-specialized_discussion 도구로 "AI의 미래"에 대해 토론해주세요
+ask_both_ai 도구로 "Python 웹앱 만드는 방법"을 질문해주세요
 ```
 
 ### 📊 통계 조회
 ```
-get_collaboration_stats 도구로 협업 통계를 확인해주세요
+get_orchestration_stats 도구로 오케스트레이션 통계를 확인해주세요
+```
+
+### 🔍 CLI 도구 확인
+```bash
+# Gemini CLI 확인
+which gemini
+
+# Claude CLI 확인
+which claude
 ```
 
 ## 🔍 모니터링
@@ -107,7 +111,7 @@ get_collaboration_stats 도구로 협업 통계를 확인해주세요
 ### 기본 로그 확인
 ```bash
 # 서버 실행 시 콘솔 출력 확인
-python src/servers/enhanced_collaborative_server.py
+python src/servers/orchestration_server.py
 ```
 
 ## 🛡️ 트러블슈팅
@@ -118,47 +122,48 @@ python src/servers/enhanced_collaborative_server.py
 3. Python 경로 확인: `/usr/local/bin/python3`
 4. 기본 서버로 테스트: `src/servers/basic_collaborative_server.py`
 
+### CLI 도구가 없을 때
+1. Gemini CLI 설치 필요
+2. Claude CLI 설치 필요
+3. PATH 환경변수 확인
+
 ## 📚 추가 문서
 
-- **[협업 시스템 설명](docs/README_COLLABORATIVE.md)** - 협업 워크플로우 상세 내용
+- **[기존 협업 시스템](docs/README_COLLABORATIVE.md)** - 레거시 협업 워크플로우 참고
 - **[시스템 아키텍처](docs/SYSTEM_ARCHITECTURE.md)** - 기술적 구조 문서
 - **[MCP 서버 정보](docs/CLAUDE.md)** - Claude Desktop 연동 가이드
 
-## 🎨 협업 워크플로우
+## 🎨 오케스트레이션 워크플로우
 
 ```
-📝 1단계: 초기 토론
+📝 질문 입력
    ↓
-✍️ 2단계: 초안 작성
-   ↓  
-🔍 3단계: 동료 검토
+🔄 두 AI에게 동시 전달
    ↓
-🚀 4단계: 피드백 개선
-   ↓
-✅ 5단계: 최종 검토
-   ↓
-📊 6단계: 품질 평가
+🔸 Gemini 응답    🔹 Claude 응답
+   ↓                ↓
+📊 결과 통합 및 표시
 ```
 
-## 🤖 AI 역할 분담
+## 🤖 AI 응답 특성
 
-- **🔸 Gemini**: 창의적 접근, 혁신적 아이디어, 사용자 중심 관점
-- **🔹 Claude**: 논리적 분석, 체계적 구조, 기술적 정확성
-- **🤝 협업**: 두 AI의 서로 다른 접근법을 결합한 균형잡힌 결과
+- **🔸 Gemini**: 각자의 고유한 특성으로 답변
+- **🔹 Claude**: 각자의 고유한 특성으로 답변
+- **🤝 오케스트레이션**: 두 AI의 서로 다른 답변을 나란히 제공
 
 ## 📈 특징
 
-- **다중 관점**을 고려한 문제 해결
-- **작업 유형별** 특화된 응답 제공
-- **동적 품질 점수** 생성 시스템
-- **구체적 예시**와 실행 가능한 가이드
+- **동시 실행**으로 빠른 응답 수집
+- **CLI 직접 연동**으로 순수한 AI 답변
+- **간단한 구조**로 이해하기 쉬움
+- **비교 분석**을 통한 다양한 관점 제공
 
 ## 🔧 기술적 특징
 
 - **JSON-RPC 2.0** 프로토콜 기반
-- **비동기 처리** 지원
-- **작업 유형 자동 분석**
-- **통계 및 성과 추적**
+- **비동기 처리**로 동시 실행
+- **CLI 프로세스 관리**
+- **간단한 통계 추적**
 
 ## 🤝 기여하기
 

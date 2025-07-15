@@ -1,44 +1,56 @@
 #!/usr/bin/env python3
 """
-Enhanced Collaborative Server - 실질적인 협업 결과를 제공하는 개선된 서버
+Orchestration Server - 질문을 받아 gemini와 claude에 각각 전달하여 두 답변을 반환하는 서버
 """
 import asyncio
 import json
 import sys
-import random
-import hashlib
+import subprocess
 from datetime import datetime
 
-class TaskSpecializer:
-    """작업 유형별 특화된 협업 결과 생성기"""
+class AIOrchestrator:
+    """AI 오케스트레이터 - 질문을 두 AI에게 전달하고 답변 수집"""
     
     def __init__(self):
-        self.collaboration_count = 0
+        self.request_count = 0
         
-    def analyze_task_type(self, task: str) -> str:
-        """작업 유형 분석"""
-        task_lower = task.lower()
-        
-        if any(keyword in task_lower for keyword in ['코드', '프로그래밍', '함수', '클래스', 'api', '웹앱', '서버']):
-            return 'coding'
-        elif any(keyword in task_lower for keyword in ['디자인', '로고', '브랜딩', 'ui', 'ux', '인터페이스']):
-            return 'design'
-        elif any(keyword in task_lower for keyword in ['마케팅', '광고', '캠페인', '전략', '브랜드']):
-            return 'marketing'
-        elif any(keyword in task_lower for keyword in ['분석', '데이터', '리포트', '연구', '조사']):
-            return 'analysis'
-        elif any(keyword in task_lower for keyword in ['글', '문서', '콘텐츠', '블로그', '기사']):
-            return 'writing'
-        else:
-            return 'general'
+    async def ask_gemini(self, question: str) -> str:
+        """Gemini CLI에 질문 전달"""
+        try:
+            process = await asyncio.create_subprocess_exec(
+                'gemini', question,
+                stdout=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.PIPE
+            )
+            stdout, stderr = await process.communicate()
+            
+            if process.returncode == 0:
+                return stdout.decode().strip()
+            else:
+                return f"Gemini 오류: {stderr.decode().strip()}"
+        except FileNotFoundError:
+            return "Gemini CLI가 설치되지 않았습니다."
+        except Exception as e:
+            return f"Gemini 실행 오류: {str(e)}"
     
-    def get_quality_score(self, task: str) -> float:
-        """작업별 동적 품질 점수 생성"""
-        # 작업 내용을 기반으로 한 해시값 생성
-        task_hash = int(hashlib.md5(task.encode()).hexdigest()[:8], 16)
-        # 8.0 ~ 9.8 사이의 점수 생성
-        base_score = 8.0 + (task_hash % 180) / 100.0
-        return round(base_score, 1)
+    async def ask_claude(self, question: str) -> str:
+        """Claude CLI에 질문 전달"""
+        try:
+            process = await asyncio.create_subprocess_exec(
+                'claude', question,
+                stdout=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.PIPE
+            )
+            stdout, stderr = await process.communicate()
+            
+            if process.returncode == 0:
+                return stdout.decode().strip()
+            else:
+                return f"Claude 오류: {stderr.decode().strip()}"
+        except FileNotFoundError:
+            return "Claude CLI가 설치되지 않았습니다."
+        except Exception as e:
+            return f"Claude 실행 오류: {str(e)}"
     
     def generate_coding_collaboration(self, task: str) -> str:
         """코딩 작업 협업"""
